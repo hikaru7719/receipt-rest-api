@@ -6,11 +6,11 @@ import (
 )
 
 type Receipt struct {
-	id   int
-	name string
-	kind string
-	date string
-	memo string
+	ID   int
+	Name string
+	Kind string
+	Date string
+	Memo string
 }
 
 func NewReceipt(name, kind, date, memo string) (receipt Receipt, err error) {
@@ -26,7 +26,7 @@ func NewReceipt(name, kind, date, memo string) (receipt Receipt, err error) {
 		return Receipt{}, err
 	}
 
-	receipt = Receipt{name: name, kind: kind, date: date, memo: memo}
+	receipt = Receipt{Name: name, Kind: kind, Date: date, Memo: memo}
 
 	return
 }

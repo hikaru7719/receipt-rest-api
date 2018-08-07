@@ -51,7 +51,7 @@ func TestKindCheck(t *testing.T) {
 }
 
 func TestNewReceipt(t *testing.T) {
-	expected := Receipt{name: "キャップ", kind: "衣類,美容", date: "2018-08-07", memo: "キャップを購入した。"}
+	expected := Receipt{Name: "キャップ", Kind: "衣類,美容", Date: "2018-08-07", Memo: "キャップを購入した。"}
 	actual, _ := NewReceipt("キャップ", "衣類,美容", "2018-08-07", "キャップを購入した。")
 	if actual != expected {
 		t.Errorf("actual %v\nwant %v", actual, expected)
