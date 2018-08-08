@@ -2,6 +2,7 @@ package model
 
 import (
 	"testing"
+	"reflect"
 )
 
 func TestNameCheck(t *testing.T) {
@@ -51,9 +52,9 @@ func TestKindCheck(t *testing.T) {
 }
 
 func TestNewReceipt(t *testing.T) {
-	expected := Receipt{Name: "キャップ", Kind: "衣類,美容", Date: "2018-08-07", Memo: "キャップを購入した。"}
+	expected := &Receipt{Name: "キャップ", Kind: "衣類,美容", Date: "2018-08-07", Memo: "キャップを購入した。"}
 	actual, _ := NewReceipt("キャップ", "衣類,美容", "2018-08-07", "キャップを購入した。")
-	if actual != expected {
+	if !reflect.DeepEqual(actual,expected){
 		t.Errorf("actual %v\nwant %v", actual, expected)
 	}
 }

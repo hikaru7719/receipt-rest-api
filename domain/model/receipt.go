@@ -13,20 +13,20 @@ type Receipt struct {
 	Memo string
 }
 
-func NewReceipt(name, kind, date, memo string) (receipt Receipt, err error) {
+func NewReceipt(name, kind, date, memo string) (receipt *Receipt, err error) {
 	if err := nameCheck(name); err != nil {
-		return Receipt{}, err
+		return &Receipt{}, err
 	}
 
 	if err := kindCheck(kind); err != nil {
-		return Receipt{}, err
+		return &Receipt{}, err
 	}
 
 	if err := dateCheck(date); err != nil {
-		return Receipt{}, err
+		return &Receipt{}, err
 	}
 
-	receipt = Receipt{Name: name, Kind: kind, Date: date, Memo: memo}
+	receipt = &Receipt{Name: name, Kind: kind, Date: date, Memo: memo}
 
 	return
 }
