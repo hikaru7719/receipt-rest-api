@@ -1,0 +1,46 @@
+# Golang CircleCI 2.0 configuration file
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.9
+        environment:
+        - MYSQR_USER=root
+        - MYSQL_PASS=test
+        - MYSQL_DBNAME=test
+        - DB_HOST=127.0.0.1
+        - DB_PORT=3306
+      - image: circleci/mysql:5.7
+        environment:
+        - MYSQL_ROOT_PASSWORD=test
+        - MYSQL_DATABASE=test
+        command: [--character-set-server=utf8, --collation-server=utf8_general_ci, --default-storage-engine=innodb]
+
+
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+      - checkout
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 3m
+
+      - run:
+          name: Install dep
+          comannd: go get -u github.com/golang/dep/cmd/dep
+
+      - run:
+          name: Install dependencies
+          command: dep ensure
+
+      - run:
+          name: Install MySQL client
+          command: sudo apt-get update ; sudo apt-get -y install mysql-client
+
+      - run:
+        name: Define schema
+        command: mysql -h 127.0.0.1 -u root -ptest test < ./sql/schema.sql
+
+      - run:
+        name: test
+        command: go test -cover ./...
