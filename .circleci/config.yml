@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: circleci/golang:1.9
         environment:
-        - MYSQR_USER=root
+        - MYSQL_USER=root
         - MYSQL_PASS=test
         - MYSQL_DBNAME=test
         - DB_HOST=127.0.0.1
@@ -17,7 +17,7 @@ jobs:
         command: [--character-set-server=utf8, --collation-server=utf8_general_ci, --default-storage-engine=innodb]
 
 
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/hikaru7719/receipt-rest-api
     steps:
       - checkout
 
@@ -27,7 +27,7 @@ jobs:
 
       - run:
           name: Install dep
-          comannd: go get -u github.com/golang/dep/cmd/dep
+          command: go get -u github.com/golang/dep/cmd/dep
 
       - run:
           name: Install dependencies
@@ -38,9 +38,9 @@ jobs:
           command: sudo apt-get update ; sudo apt-get -y install mysql-client
 
       - run:
-        name: Define schema
-        command: mysql -h 127.0.0.1 -u root -ptest test < ./sql/schema.sql
+          name: Define schema
+          command: mysql -h 127.0.0.1 -u root -ptest test < ./sql/schema.sql
 
       - run:
-        name: test
-        command: go test -cover ./...
+          name: test
+          command: go test -cover ./...
