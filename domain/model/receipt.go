@@ -6,11 +6,11 @@ import (
 )
 
 type Receipt struct {
-	ID   int
-	Name string
-	Kind string
-	Date string
-	Memo string
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	Kind string `json:"kind"`
+	Date string `json:"date"`
+	Memo string `json:"memo"`
 }
 
 func NewReceipt(name, kind, date, memo string) (receipt *Receipt, err error) {
