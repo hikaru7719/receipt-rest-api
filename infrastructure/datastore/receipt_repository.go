@@ -23,3 +23,11 @@ func (r *ReceiptRepository) FindOne(receiptId int) (*model.Receipt, error) {
 
 	return receipt, nil
 }
+
+func (r *ReceiptRepository) Create(receipt *model.Receipt) (*model.Receipt, error) {
+	if err := r.db.Create(receipt).Error; err != nil {
+		return receipt, err
+	}
+
+	return receipt, nil
+}

@@ -6,7 +6,7 @@ import (
 )
 
 type Receipt struct {
-	ID   int    `json:"id"`
+	ID   int    `json:"id" gorm:"primary_key"`
 	Name string `json:"name"`
 	Kind string `json:"kind"`
 	Date string `json:"date"`
