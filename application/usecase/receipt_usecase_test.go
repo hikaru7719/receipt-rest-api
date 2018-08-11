@@ -25,6 +25,6 @@ func (r *ReceiptRepositoryStub) FindOne(receiptId int) (*model.Receipt, error) {
 	return receipt, nil
 }
 
-func (r *ReceiptRepositoryStub) Create(receipt *model.Receipt) (*model.Receipt ,error){
-	return receipt,nil
+func (r *ReceiptRepositoryStub) Create(receipt *model.Receipt) (*model.Receipt, error) {
+	return receipt, nil
 }
