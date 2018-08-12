@@ -3,8 +3,8 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/hikaru7719/receipt-rest-api/application/usecase"
+	"github.com/hikaru7719/receipt-rest-api/interface/server/form"
 	"strconv"
-	"fmt"
 )
 
 type ReceiptHandler interface {
@@ -30,16 +30,11 @@ func (h *receiptHandler) GetReceipt() gin.HandlerFunc {
 
 func (h *receiptHandler) PostReceipt() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Print(c.Request.Body)
-		name := c.PostForm("name")
-		kind := c.PostForm("kind")
-		date := c.PostForm("date")
-		memo := c.PostForm("memo")
-		receipt,err := h.u.PostReceipt(name, kind, date, memo)
-
-		fmt.Println("abc",name,kind,date,memo)
+		form := &form.ReceiptForm{}
+		err := c.BindJSON(&form)
+		receipt, err := h.u.PostReceipt(form.Name, form.Kind, form.Date, form.Memo)
 		if err != nil {
-			c.JSON(500,err)
+			c.JSON(500, err)
 		}
 		c.JSON(201, receipt)
 	}

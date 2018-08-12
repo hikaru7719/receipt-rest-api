@@ -5,7 +5,6 @@ import (
 	"github.com/hikaru7719/receipt-rest-api/domain/repository"
 )
 
-
 type ReceiptUsecase interface {
 	GetReceipt(id int) (*model.Receipt, error)
 	PostReceipt(name, kind, date, memo string) (*model.Receipt, error)
