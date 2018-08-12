@@ -10,14 +10,16 @@ import (
 func main() {
 
 	db := datastore.GetConnection()
+	defer db.Close()
 	receipt_repository := datastore.NewReceiptRepository(db)
 	receipt_usecase := usecase.NewReceiptUsecase(receipt_repository)
-	get_receipt_handller := handler.NewGetReceiptHandler(receipt_usecase)
+	receipt_handller := handler.NewReceiptHandler(receipt_usecase)
 
 	r := gin.Default()
 	v1 := r.Group("/v1")
 	{
-		v1.GET("/receipt/:id", get_receipt_handller.GetReceipt())
+		v1.GET("/receipt/:id", receipt_handller.GetReceipt())
+		v1.POST("/receipt", receipt_handller.PostReceipt())
 	}
 
 	r.Run(":8080")
