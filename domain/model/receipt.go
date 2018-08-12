@@ -7,10 +7,10 @@ import (
 
 type Receipt struct {
 	ID   int    `json:"id" gorm:"primary_key"`
-	Name string `json:"name"`
-	Kind string `json:"kind"`
-	Date string `json:"date"`
-	Memo string `json:"memo"`
+	Name string `json:"name" binding:"required"`
+	Kind string `json:"kind" binding:"required"`
+	Date string `json:"date" binding:"required"`
+	Memo string `json:"memo" binding:"required"`
 }
 
 func NewReceipt(name, kind, date, memo string) (receipt *Receipt, err error) {
