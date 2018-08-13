@@ -8,8 +8,8 @@ import (
 )
 
 type ReceiptHandler interface {
-	GetReceipt() gin.HandlerFunc
-	PostReceipt() gin.HandlerFunc
+	GetReceipt()
+	PostReceipt()
 }
 
 type receiptHandler struct {
@@ -20,22 +20,23 @@ func NewReceiptHandler(u usecase.ReceiptUsecase) *receiptHandler {
 	return &receiptHandler{u}
 }
 
-func (h *receiptHandler) GetReceipt() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		id, _ := strconv.Atoi(c.Param("id"))
-		receipt, _ := h.u.GetReceipt(id)
+func (h *receiptHandler) GetReceipt(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	receipt, err := h.u.GetReceipt(id)
+	if err != nil {
+		c.Status(500)
+	} else {
 		c.JSON(200, receipt)
 	}
 }
 
-func (h *receiptHandler) PostReceipt() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		form := &form.ReceiptForm{}
-		err := c.BindJSON(&form)
-		receipt, err := h.u.PostReceipt(form.Name, form.Kind, form.Date, form.Memo)
-		if err != nil {
-			c.JSON(500, err)
-		}
+func (h *receiptHandler) PostReceipt(c *gin.Context) {
+	form := &form.ReceiptForm{}
+	err := c.BindJSON(form)
+	receipt, err := h.u.PostReceipt(form.Name, form.Kind, form.Date, form.Memo)
+	if err != nil {
+		c.JSON(500, err)
+	} else {
 		c.JSON(201, receipt)
 	}
 }

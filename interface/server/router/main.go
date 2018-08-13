@@ -9,19 +9,26 @@ import (
 
 func main() {
 
-	db := datastore.GetConnection()
-	defer db.Close()
-	receipt_repository := datastore.NewReceiptRepository(db)
-	receipt_usecase := usecase.NewReceiptUsecase(receipt_repository)
-	receipt_handller := handler.NewReceiptHandler(receipt_usecase)
-
-	r := gin.Default()
-	v1 := r.Group("/v1")
-	{
-		v1.GET("/receipt/:id", receipt_handller.GetReceipt())
-		v1.POST("/receipt", receipt_handller.PostReceipt())
-	}
-
+	r := router()
 	r.Run(":8080")
 
+}
+
+func router() *gin.Engine {
+
+	db := datastore.GetConnection()
+	defer db.Close()
+	receiptRepository := datastore.NewReceiptRepository(db)
+	receiptUsecase := usecase.NewReceiptUsecase(receiptRepository)
+	receiptHandller := handler.NewReceiptHandler(receiptUsecase)
+
+	r := gin.Default()
+
+	v1 := r.Group("/v1")
+	{
+		v1.GET("/receipt/:id", receiptHandller.GetReceipt)
+		v1.POST("/receipt", receiptHandller.PostReceipt)
+	}
+
+	return r
 }

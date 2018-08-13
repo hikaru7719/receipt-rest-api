@@ -20,7 +20,7 @@ func TestReceiptUsecase_GetReceipt(t *testing.T) {
 
 type ReceiptRepositoryStub struct{}
 
-func (r *ReceiptRepositoryStub) FindOne(receiptId int) (*model.Receipt, error) {
+func (r *ReceiptRepositoryStub) FindOne(receiptID int) (*model.Receipt, error) {
 	receipt := &model.Receipt{Name: "test"}
 	return receipt, nil
 }
