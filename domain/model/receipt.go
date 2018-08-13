@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Receipt - レシートを表す構造体
 type Receipt struct {
 	ID   int    `json:"id" gorm:"primary_key"`
 	Name string `json:"name" binding:"required"`
@@ -13,6 +14,7 @@ type Receipt struct {
 	Memo string `json:"memo" binding:"required"`
 }
 
+// NewReceipt - レシートの生成
 func NewReceipt(name, kind, date, memo string) (receipt *Receipt, err error) {
 	if err := nameCheck(name); err != nil {
 		return &Receipt{}, err

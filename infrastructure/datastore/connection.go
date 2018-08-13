@@ -3,10 +3,11 @@ package datastore
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/mysql" //mysqlのドライバー
 	"os"
 )
 
+// GetConnection - コネクションの確立
 func GetConnection() *gorm.DB {
 	user := os.Getenv("MYSQL_USER")
 	pass := os.Getenv("MYSQL_PASS")
