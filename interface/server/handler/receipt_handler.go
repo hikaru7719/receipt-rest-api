@@ -22,8 +22,12 @@ func NewReceiptHandler(u usecase.ReceiptUsecase) *receiptHandler {
 
 func (h *receiptHandler) GetReceipt(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	receipt, _ := h.u.GetReceipt(id)
-	c.JSON(200, receipt)
+	receipt, err := h.u.GetReceipt(id)
+	if err != nil {
+		c.Status(500)
+	} else {
+		c.JSON(200, receipt)
+	}
 }
 
 func (h *receiptHandler) PostReceipt(c *gin.Context) {
