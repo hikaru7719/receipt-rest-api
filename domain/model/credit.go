@@ -9,6 +9,8 @@ type Credit struct {
 	WithdrawalDate string
 }
 
+
+// NewCredit - クレジットカードの生成
 func NewCredit(cardName, openingDate, closingDate, withdrawalDate string) (*Credit, error) {
 	return &Credit{CardName: cardName, OpenigDate: openingDate, ClosingDate: closingDate, WithdrawalDate: withdrawalDate},nil
 }
