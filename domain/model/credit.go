@@ -4,13 +4,13 @@ package model
 type Credit struct {
 	ID             int
 	CardName       string
-	OpenigDate     string
+	OpeningDate    string
 	ClosingDate    string
 	WithdrawalDate string
+	PaymentMonth   string
 }
-
 
 // NewCredit - クレジットカードの生成
 func NewCredit(cardName, openingDate, closingDate, withdrawalDate string) (*Credit, error) {
-	return &Credit{CardName: cardName, OpenigDate: openingDate, ClosingDate: closingDate, WithdrawalDate: withdrawalDate},nil
+	return &Credit{CardName: cardName, OpeningDate: openingDate, ClosingDate: closingDate, WithdrawalDate: withdrawalDate}, nil
 }
