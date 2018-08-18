@@ -1,12 +1,12 @@
 package datastore
 
 import (
+	"fmt"
 	"github.com/hikaru7719/receipt-rest-api/domain/model"
 	"github.com/hikaru7719/receipt-rest-api/domain/repository"
 	"os"
 	"reflect"
 	"testing"
-	"fmt"
 )
 
 var (
@@ -14,7 +14,7 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	CreateConnection()
+	CreateConnection(GetDBEnv())
 	TestRepository = NewReceiptRepository()
 	code := m.Run()
 	os.Exit(code)
