@@ -10,7 +10,7 @@ import (
 func main() {
 
 	r := router()
-	datastore.CreateConnection()
+	datastore.CreateConnection(datastore.GetDBEnv())
 	r.Run(":8080")
 
 }
