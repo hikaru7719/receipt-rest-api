@@ -9,16 +9,13 @@ import (
 	"testing"
 	"encoding/json"
 	"bytes"
-	"fmt"
 	"github.com/hikaru7719/receipt-rest-api/interface/server/form"
 )
 
 func TestRouter(t *testing.T) {
-	db := datastore.GetConnection()
-	tx := db.Begin()
+	datastore.CreateConnection()
 	testData, _ := model.NewReceipt("test", "日用品", "2018-08-08", "memo")
-	tx.Create(testData)
-
+	datastore.DB.Create(testData)
 	r := router()
 	testServer := httptest.NewServer(r)
 	client := new(http.Client)
@@ -31,24 +28,14 @@ func TestRouter(t *testing.T) {
 	}
 
 	test := &form.ReceiptForm{Name:"test",Kind:"日用品",Date:"2018-08-08",Memo:"test"}
-	jsonStr := `{"name":"test","kind":"日用品","date":"2018-08-09","memo":"memo"}`
-
-	//buf := new(bytes.Buffer)
-	//json.NewEncoder(buf).Encode(test)
-	//fmt.Println(buf)
-	//postReq, _ := http.NewRequest("POST",testServer.URL+"/v1/receipt",buf)
-	postReq, _ := http.NewRequest("POST",testServer.URL+"/v1/receipt",bytes.NewBuffer([]byte(jsonStr)))
+	buf := new(bytes.Buffer)
+	json.NewEncoder(buf).Encode(test)
+	postReq, _ := http.NewRequest("POST",testServer.URL+"/v1/receipt",buf)
 	postReq.Header.Set("Content-Type","application/json")
 	postRes, _ := client.Do(postReq)
-
-	fmt.Println(req)
-	fmt.Println(postReq)
-	fmt.Println(postRes.StatusCode)
 
 	if postRes.StatusCode != 201 {
 		t.Error("Post Request Not Working")
 	}
 
-	//defer tx.Rollback()
-	//defer db.Close()
 }

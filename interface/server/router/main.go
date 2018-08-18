@@ -10,15 +10,14 @@ import (
 func main() {
 
 	r := router()
+	datastore.CreateConnection()
 	r.Run(":8080")
 
 }
 
 func router() *gin.Engine {
 
-	db := datastore.GetConnection()
-	defer db.Close()
-	receiptRepository := datastore.NewReceiptRepository(db)
+	receiptRepository := datastore.NewReceiptRepository()
 	receiptUseCase := usecase.NewReceiptUsecase(receiptRepository)
 	receiptHandler := handler.NewReceiptHandler(receiptUseCase)
 

@@ -3,33 +3,31 @@ package datastore
 import (
 	"github.com/hikaru7719/receipt-rest-api/domain/model"
 	"github.com/hikaru7719/receipt-rest-api/domain/repository"
-	"github.com/jinzhu/gorm"
 	"os"
 	"reflect"
 	"testing"
+	"fmt"
 )
 
 var (
-	db             *gorm.DB
-	tx             *gorm.DB
 	TestRepository repository.ReceiptRepository
 )
 
 func TestMain(m *testing.M) {
-	db = GetConnection()
-	tx = db.Begin()
-	TestRepository = NewReceiptRepository(tx)
+	CreateConnection()
+	TestRepository = NewReceiptRepository()
 	code := m.Run()
-	tx.Rollback()
 	os.Exit(code)
 }
 
 func TestReceiptRepository_FindOne(t *testing.T) {
-	expected := &model.Receipt{ID: 1, Name: "test", Kind: "日用品", Date: "2018-08-08", Memo: "test"}
-	tx.Create(&expected)
-	actual, _ := TestRepository.FindOne(1)
+	expected := &model.Receipt{Name: "test", Kind: "日用品", Date: "2018-08-08", Memo: "test"}
+	DB.Create(&expected)
+	fmt.Println(expected.ID)
+	actual, err := TestRepository.FindOne(expected.ID)
 
 	if !reflect.DeepEqual(actual, expected) {
+		fmt.Println(err)
 		t.Errorf("actual %v\nwant %v", actual, expected)
 	}
 }
