@@ -7,8 +7,10 @@ import (
 	"os"
 )
 
+var DB *gorm.DB
+
 // GetConnection - コネクションの確立
-func GetConnection() *gorm.DB {
+func CreateConnection(){
 	user := os.Getenv("MYSQL_USER")
 	pass := os.Getenv("MYSQL_PASS")
 	dbname := os.Getenv("MYSQL_DBNAME")
@@ -20,5 +22,5 @@ func GetConnection() *gorm.DB {
 		panic(err.Error())
 	}
 
-	return db
+	DB = db
 }

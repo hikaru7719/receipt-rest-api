@@ -7,14 +7,15 @@ import (
 	"net/http/httptest"
 	"strconv"
 	"testing"
+	"encoding/json"
+	"bytes"
+	"github.com/hikaru7719/receipt-rest-api/interface/server/form"
 )
 
 func TestRouter(t *testing.T) {
-	db := datastore.GetConnection()
-	tx := db.Begin()
+	datastore.CreateConnection()
 	testData, _ := model.NewReceipt("test", "日用品", "2018-08-08", "memo")
-	tx.Create(testData)
-
+	datastore.DB.Create(testData)
 	r := router()
 	testServer := httptest.NewServer(r)
 	client := new(http.Client)
@@ -26,6 +27,15 @@ func TestRouter(t *testing.T) {
 		t.Error("Get Request Not Working")
 	}
 
-	defer tx.Rollback()
-	defer db.Close()
+	test := &form.ReceiptForm{Name:"test",Kind:"日用品",Date:"2018-08-08",Memo:"test"}
+	buf := new(bytes.Buffer)
+	json.NewEncoder(buf).Encode(test)
+	postReq, _ := http.NewRequest("POST",testServer.URL+"/v1/receipt",buf)
+	postReq.Header.Set("Content-Type","application/json")
+	postRes, _ := client.Do(postReq)
+
+	if postRes.StatusCode != 201 {
+		t.Error("Post Request Not Working")
+	}
+
 }
