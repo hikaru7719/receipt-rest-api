@@ -1,6 +1,7 @@
 package datastore
 
 import (
+	"fmt"
 	"github.com/hikaru7719/receipt-rest-api/domain/model"
 	"github.com/hikaru7719/receipt-rest-api/domain/repository"
 	"os"
