@@ -7,14 +7,19 @@ import (
 	"reflect"
 	"testing"
 	"fmt"
+	"github.com/DATA-DOG/go-sqlmock"
+	"database/sql"
 )
 
 var (
 	TestRepository repository.ReceiptRepository
+	mock sqlmock.Sqlmock
+	db *sql.DB
 )
 
 func TestMain(m *testing.M) {
-	CreateConnection()
+	db,mock,_ =sqlmock.New()
+	CreateConnection(db)
 	TestRepository = NewReceiptRepository()
 	code := m.Run()
 	os.Exit(code)
@@ -22,9 +27,7 @@ func TestMain(m *testing.M) {
 
 func TestReceiptRepository_FindOne(t *testing.T) {
 	expected := &model.Receipt{Name: "test", Kind: "日用品", Date: "2018-08-08", Memo: "test"}
-	DB.Create(&expected)
-	fmt.Println(expected.ID)
-	actual, err := TestRepository.FindOne(expected.ID)
+	actual, err := TestRepository.FindOne(1)
 
 	if !reflect.DeepEqual(actual, expected) {
 		fmt.Println(err)
