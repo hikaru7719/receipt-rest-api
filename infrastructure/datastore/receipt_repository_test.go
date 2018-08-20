@@ -38,7 +38,10 @@ func TestReceiptRepository_FindOne(t *testing.T) {
 	}
 }
 
-/*func TestReceiptRepository_Create(t *testing.T) {
+func TestReceiptRepository_Create(t *testing.T) {
+	mock.ExpectBegin()
+	mock.ExpectExec("INSERT").WillReturnResult(sqlmock.NewResult(1,1))
+	mock.ExpectCommit()
 	expected := &model.Receipt{Name: "test", Kind: "日用品", Date: "2018-08-09", Memo: "test"}
 	actual, err := TestRepository.Create(expected)
 
@@ -50,4 +53,3 @@ func TestReceiptRepository_FindOne(t *testing.T) {
 		t.Error("could not get id")
 	}
 }
-*/
