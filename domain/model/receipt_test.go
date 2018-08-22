@@ -19,6 +19,21 @@ func TestNameCheck(t *testing.T) {
 
 }
 
+func TestPriceCheck(t *testing.T) {
+	safePrice := []int{0, 1}
+	invalidPrice := -1
+
+	for _, safe := range safePrice {
+		if err := priceCheck(safe); err != nil {
+			t.Error("price >= 0 is safe")
+		}
+	}
+
+	if err := priceCheck(invalidPrice); err == nil {
+		t.Error("minus number are invalid")
+	}
+}
+
 func TestDateCheck(t *testing.T) {
 	safeFormat := "2018-05-02"
 	numberFormat := "1111111111"
@@ -52,8 +67,8 @@ func TestKindCheck(t *testing.T) {
 }
 
 func TestNewReceipt(t *testing.T) {
-	expected := &Receipt{Name: "キャップ", Kind: "衣類,美容", Date: "2018-08-07", Memo: "キャップを購入した。"}
-	actual, _ := NewReceipt("キャップ", "衣類,美容", "2018-08-07", "キャップを購入した。")
+	expected := &Receipt{Name: "キャップ", Price: 1000, Kind: "衣類,美容", Date: "2018-08-07", Memo: "キャップを購入した。"}
+	actual, _ := NewReceipt("キャップ", 1000, "衣類,美容", "2018-08-07", "キャップを購入した。")
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("actual %v\nwant %v", actual, expected)
 	}

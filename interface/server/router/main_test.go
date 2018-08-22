@@ -14,7 +14,7 @@ import (
 
 func TestRouter(t *testing.T) {
 	datastore.CreateConnection(datastore.GetDBEnv())
-	testData, _ := model.NewReceipt("test", "日用品", "2018-08-08", "memo")
+	testData, _ := model.NewReceipt("test", 1000, "日用品", "2018-08-08", "memo")
 	datastore.DB.Create(testData)
 	r := router()
 	testServer := httptest.NewServer(r)
@@ -27,7 +27,7 @@ func TestRouter(t *testing.T) {
 		t.Error("Get Request Not Working")
 	}
 
-	test := &form.ReceiptForm{Name: "test", Kind: "日用品", Date: "2018-08-08", Memo: "test"}
+	test := &form.ReceiptForm{Name: "test", Price: 1000, Kind: "日用品", Date: "2018-08-08", Memo: "test"}
 	buf := new(bytes.Buffer)
 	json.NewEncoder(buf).Encode(test)
 	postReq, _ := http.NewRequest("POST", testServer.URL+"/v1/receipt", buf)
