@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 func TestReceiptRepository_FindOne(t *testing.T) {
 	testData := &model.Receipt{ID:1,Name: "test", Kind: "日用品", Date: "2018-08-09", Memo: "test"}
 	cols := []string{"id","name","kind","date","memo"}
-	mock.ExpectQuery("SELECT").WillReturnRows(sqlmock.NewRows(cols).AddRow(testData.ID,testData.Name,testData.Kind,testData.Date,testData.Memo))
+	mock.ExpectQuery("SELECT (.+) FROM `receipts` WHERE").WillReturnRows(sqlmock.NewRows(cols).AddRow(testData.ID,testData.Name,testData.Kind,testData.Date,testData.Memo))
 	actual, err := TestRepository.FindOne(1)
 
 	if !reflect.DeepEqual(actual, testData) {
@@ -40,7 +40,7 @@ func TestReceiptRepository_FindOne(t *testing.T) {
 
 func TestReceiptRepository_Create(t *testing.T) {
 	mock.ExpectBegin()
-	mock.ExpectExec("INSERT").WillReturnResult(sqlmock.NewResult(1,1))
+	mock.ExpectExec("INSERT INTO `receipts`").WillReturnResult(sqlmock.NewResult(1,1))
 	mock.ExpectCommit()
 	expected := &model.Receipt{Name: "test", Kind: "日用品", Date: "2018-08-09", Memo: "test"}
 	actual, err := TestRepository.Create(expected)
