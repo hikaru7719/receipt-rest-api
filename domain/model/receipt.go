@@ -7,16 +7,21 @@ import (
 
 // Receipt - レシートを表す構造体
 type Receipt struct {
-	ID   int    `json:"id" gorm:"primary_key"`
-	Name string `json:"name" binding:"required"`
-	Kind string `json:"kind" binding:"required"`
-	Date string `json:"date" binding:"required"`
-	Memo string `json:"memo" binding:"required"`
+	ID    int    `json:"id" gorm:"primary_key"`
+	Name  string `json:"name" binding:"required"`
+	Price int    `json:"price" binding:"required"`
+	Kind  string `json:"kind" binding:"required"`
+	Date  string `json:"date" binding:"required"`
+	Memo  string `json:"memo" binding:"required"`
 }
 
 // NewReceipt - レシートの生成
-func NewReceipt(name, kind, date, memo string) (receipt *Receipt, err error) {
+func NewReceipt(name string, price int, kind, date, memo string) (receipt *Receipt, err error) {
 	if err := nameCheck(name); err != nil {
+		return &Receipt{}, err
+	}
+
+	if err := priceCheck(price); err != nil {
 		return &Receipt{}, err
 	}
 
@@ -28,7 +33,7 @@ func NewReceipt(name, kind, date, memo string) (receipt *Receipt, err error) {
 		return &Receipt{}, err
 	}
 
-	receipt = &Receipt{Name: name, Kind: kind, Date: date, Memo: memo}
+	receipt = &Receipt{Name: name, Price: price, Kind: kind, Date: date, Memo: memo}
 
 	return
 }
@@ -37,6 +42,14 @@ func nameCheck(name string) (err error) {
 
 	if len(name) > 20 {
 		err = errors.New("invalid name")
+	}
+
+	return
+}
+
+func priceCheck(price int) (err error) {
+	if price < 0 {
+		err = errors.New("invalid price")
 	}
 
 	return

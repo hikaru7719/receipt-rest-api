@@ -35,7 +35,7 @@ func (h *receiptHandler) GetReceipt(c *gin.Context) {
 func (h *receiptHandler) PostReceipt(c *gin.Context) {
 	form := &form.ReceiptForm{}
 	err := c.BindJSON(form)
-	receipt, err := h.u.PostReceipt(form.Name, form.Kind, form.Date, form.Memo)
+	receipt, err := h.u.PostReceipt(form.Name, form.Price, form.Kind, form.Date, form.Memo)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(500, err)
