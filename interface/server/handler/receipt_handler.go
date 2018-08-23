@@ -8,19 +8,22 @@ import (
 	"strconv"
 )
 
+// ReceiptHandler - レシートに関するハンドラ
 type ReceiptHandler interface {
-	GetReceipt()
-	PostReceipt()
+	GetReceipt(ctx *gin.Context)
+	PostReceipt(ctx *gin.Context)
 }
 
 type receiptHandler struct {
 	u usecase.ReceiptUsecase
 }
 
-func NewReceiptHandler(u usecase.ReceiptUsecase) *receiptHandler {
-	return &receiptHandler{u}
+// NewReceiptHandler - receiptHandlerの生成
+func NewReceiptHandler(u usecase.ReceiptUsecase) ReceiptHandler {
+	return &receiptHandler{u: u}
 }
 
+// GetReceipt - レシートの取得
 func (h *receiptHandler) GetReceipt(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	receipt, err := h.u.GetReceipt(id)
@@ -32,6 +35,7 @@ func (h *receiptHandler) GetReceipt(c *gin.Context) {
 	}
 }
 
+// PostReceipt - レシートの新規作成
 func (h *receiptHandler) PostReceipt(c *gin.Context) {
 	form := &form.ReceiptForm{}
 	err := c.BindJSON(form)

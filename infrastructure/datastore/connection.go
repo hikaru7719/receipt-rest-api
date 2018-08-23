@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// DB - コネクション
 var DB *gorm.DB
 
 // GetDBEnv - DBの接続先を環境変数から取得
@@ -17,7 +18,7 @@ func GetDBEnv() interface{} {
 	return connect
 }
 
-// GetConnection - コネクションの確立
+// CreateConnection - コネクションの確立
 func CreateConnection(connect interface{}) {
 	db, err := gorm.Open("mysql", connect)
 

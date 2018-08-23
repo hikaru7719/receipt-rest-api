@@ -34,3 +34,9 @@ func (r *ReceiptRepository) Create(receipt *model.Receipt) (*model.Receipt, erro
 
 	return receipt, nil
 }
+
+// Delete - レシートの削除
+func (r *ReceiptRepository) Delete(receipt *model.Receipt) error {
+	err := DB.Delete(receipt).Error
+	return err
+}
