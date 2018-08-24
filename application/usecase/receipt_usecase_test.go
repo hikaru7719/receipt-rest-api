@@ -28,3 +28,7 @@ func (r *ReceiptRepositoryStub) FindOne(receiptID int) (*model.Receipt, error) {
 func (r *ReceiptRepositoryStub) Create(receipt *model.Receipt) (*model.Receipt, error) {
 	return receipt, nil
 }
+
+func (r *ReceiptRepositoryStub) Delete(receipt *model.Receipt) error {
+	return nil
+}
