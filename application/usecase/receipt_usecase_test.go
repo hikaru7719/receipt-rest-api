@@ -29,6 +29,6 @@ func (r *ReceiptRepositoryStub) Create(receipt *model.Receipt) (*model.Receipt, 
 	return receipt, nil
 }
 
-func (r *ReceiptRepositoryStub) Delete(receipt *model.Receipt) error {
+func (r *ReceiptRepositoryStub) Delete(receiptID int) error {
 	return nil
 }

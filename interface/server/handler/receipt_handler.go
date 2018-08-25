@@ -12,6 +12,7 @@ import (
 type ReceiptHandler interface {
 	GetReceipt(ctx *gin.Context)
 	PostReceipt(ctx *gin.Context)
+	DeleteReceipt(ctx *gin.Context)
 }
 
 type receiptHandler struct {
@@ -45,5 +46,16 @@ func (h *receiptHandler) PostReceipt(c *gin.Context) {
 		c.JSON(500, err)
 	} else {
 		c.JSON(201, receipt)
+	}
+}
+
+// DeleteReceipt - レシートの削除
+func (h *receiptHandler) DeleteReceipt(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	err := h.u.DeleteReceipt(id)
+	if err != nil {
+		c.Status(204)
+	} else {
+		c.Status(202)
 	}
 }

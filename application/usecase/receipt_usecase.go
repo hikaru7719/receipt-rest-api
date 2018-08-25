@@ -9,6 +9,7 @@ import (
 type ReceiptUsecase interface {
 	GetReceipt(id int) (*model.Receipt, error)
 	PostReceipt(name string, price int, kind, date, memo string) (*model.Receipt, error)
+	DeleteReceipt(receiptID int) error
 }
 
 type receiptUsecase struct {
@@ -45,4 +46,10 @@ func (r *receiptUsecase) PostReceipt(name string, price int, kind, date, memo st
 	}
 
 	return createdReceipt, nil
+}
+
+// DeleteReceipt - レシートの削除
+func (r *receiptUsecase) DeleteReceipt(receiptID int) error {
+	err := r.Delete(receiptID)
+	return err
 }

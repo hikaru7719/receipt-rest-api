@@ -27,6 +27,7 @@ func router() *gin.Engine {
 	{
 		v1.GET("/receipt/:id", receiptHandler.GetReceipt)
 		v1.POST("/receipt", receiptHandler.PostReceipt)
+		v1.DELETE("/receipt/:id", receiptHandler.DeleteReceipt)
 	}
 
 	return r

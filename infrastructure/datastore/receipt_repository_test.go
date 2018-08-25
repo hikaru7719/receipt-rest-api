@@ -55,7 +55,7 @@ func TestReceiptRepository_Create(t *testing.T) {
 func TestReceiptRepository_Delete(t *testing.T) {
 	mock.ExpectExec("DELETE FROM `receipts`").WillReturnResult(sqlmock.NewResult(1, 1))
 
-	err := TestRepository.Delete(&model.Receipt{ID: 1000, Name: "test", Kind: "日用品", Date: "2018-08-20", Memo: "test"})
+	err := TestRepository.Delete(1000)
 
 	if err != nil {
 		t.Error(err)
