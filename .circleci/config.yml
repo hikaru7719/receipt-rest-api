@@ -34,12 +34,8 @@ jobs:
           command: dep ensure
 
       - run:
-          name: Install MySQL client
-          command: sudo apt-get update ; sudo apt-get -y install mysql-client
-
-      - run:
           name: Define schema
-          command: mysql -h 127.0.0.1 -u root -ptest test < ./sql/schema.sql
+          command: go run /go/src/github.com/hikaru7719/receipt-rest-api/cmd/db_migration.go
 
       - run:
           name: test
