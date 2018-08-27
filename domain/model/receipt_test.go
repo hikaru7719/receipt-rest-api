@@ -67,8 +67,8 @@ func TestKindCheck(t *testing.T) {
 }
 
 func TestNewReceipt(t *testing.T) {
-	expected := &Receipt{Name: "キャップ", Price: 1000, Kind: "衣類,美容", Date: "2018-08-07", Memo: "キャップを購入した。"}
-	actual, _ := NewReceipt("キャップ", 1000, "衣類,美容", "2018-08-07", "キャップを購入した。")
+	expected := &Receipt{UserID: 1, Name: "キャップ", Price: 1000, Kind: "衣類,美容", Date: "2018-08-07", Memo: "キャップを購入した。", CreditID: 1}
+	actual, _ := NewReceipt(1, "キャップ", 1000, "衣類,美容", "2018-08-07", "キャップを購入した。", 1)
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("actual %v\nwant %v", actual, expected)
 	}

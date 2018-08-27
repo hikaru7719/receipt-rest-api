@@ -7,16 +7,19 @@ import (
 
 // Receipt - レシートを表す構造体
 type Receipt struct {
-	ID    int    `json:"id" gorm:"primary_key"`
-	Name  string `json:"name" binding:"required"`
-	Price int    `json:"price" binding:"required"`
-	Kind  string `json:"kind" binding:"required"`
-	Date  string `json:"date" binding:"required"`
-	Memo  string `json:"memo" binding:"required"`
+	ID       int    `json:"id" gorm:"primary_key"`
+	UserID   int    `json:"user_id"`
+	Name     string `json:"name"`
+	Price    int    `json:"price"`
+	Kind     string `json:"kind"`
+	Date     string `json:"date"`
+	Memo     string `json:"memo"`
+	CreditID int    `json:"credit_id"`
+	Credit   Credit `json:"credit" gorm:"foreignkey:CreditID;association_foreignkey:ID"`
 }
 
 // NewReceipt - レシートの生成
-func NewReceipt(name string, price int, kind, date, memo string) (receipt *Receipt, err error) {
+func NewReceipt(userID int, name string, price int, kind, date, memo string, creditID int) (receipt *Receipt, err error) {
 	if err := nameCheck(name); err != nil {
 		return &Receipt{}, err
 	}
@@ -33,7 +36,7 @@ func NewReceipt(name string, price int, kind, date, memo string) (receipt *Recei
 		return &Receipt{}, err
 	}
 
-	receipt = &Receipt{Name: name, Price: price, Kind: kind, Date: date, Memo: memo}
+	receipt = &Receipt{UserID: userID, Name: name, Price: price, Kind: kind, Date: date, Memo: memo, CreditID: creditID}
 
 	return
 }

@@ -8,7 +8,7 @@ import (
 // ReceiptUsecase - レシートに関するユースケースを表すインターフェース
 type ReceiptUsecase interface {
 	GetReceipt(id int) (*model.Receipt, error)
-	PostReceipt(name string, price int, kind, date, memo string) (*model.Receipt, error)
+	PostReceipt(userID int, name string, price int, kind, date, memo string, creditID int) (*model.Receipt, error)
 	DeleteReceipt(receiptID int) error
 }
 
@@ -24,17 +24,12 @@ func NewReceiptUsecase(r repository.ReceiptRepository) ReceiptUsecase {
 // GetReceipt - レシートの取得
 func (r *receiptUsecase) GetReceipt(id int) (*model.Receipt, error) {
 	receipt, err := r.FindOne(id)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return receipt, nil
+	return receipt, err
 }
 
 // PostReceipt - レシートの新規登録
-func (r *receiptUsecase) PostReceipt(name string, price int, kind, date, memo string) (*model.Receipt, error) {
-	receipt, err := model.NewReceipt(name, price, kind, date, memo)
+func (r *receiptUsecase) PostReceipt(userID int, name string, price int, kind, date, memo string, creditID int) (*model.Receipt, error) {
+	receipt, err := model.NewReceipt(userID, name, price, kind, date, memo, creditID)
 	if err != nil {
 		return nil, err
 	}

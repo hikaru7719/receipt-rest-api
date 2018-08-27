@@ -28,11 +28,8 @@ func (r *ReceiptRepository) FindOne(receiptID int) (*model.Receipt, error) {
 
 // Create - レシートの生成
 func (r *ReceiptRepository) Create(receipt *model.Receipt) (*model.Receipt, error) {
-	if err := DB.Create(receipt).Error; err != nil {
-		return receipt, err
-	}
-
-	return receipt, nil
+	err := DB.Create(receipt).Error
+	return receipt, err
 }
 
 // Delete - レシートの削除

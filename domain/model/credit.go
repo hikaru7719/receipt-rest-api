@@ -2,7 +2,7 @@ package model
 
 // Credit -　クレジットカードを表す構造体
 type Credit struct {
-	ID             int
+	ID             int `gorm:"primary_key"`
 	CardName       string
 	OpeningDate    string
 	ClosingDate    string
