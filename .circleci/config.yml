@@ -29,9 +29,17 @@ jobs:
           name: Install dep
           command: go get -u github.com/golang/dep/cmd/dep
 
+      - restore_cache:
+          keys:
+            - dep-cache-{{.Branch}}-{{checksum "Gopkg.lock"}}
+
       - run:
           name: Install dependencies
           command: dep ensure
+
+      - store_cache:
+          key: dep-cache-{{.Branch}}-{{checksum "Gopkg.lock"}}
+          paths: /go/src/github.com/hikaru7719/receipt-rest-api/vendor
 
       - run:
           name: Define schema
