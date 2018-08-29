@@ -37,7 +37,7 @@ jobs:
           name: Install dependencies
           command: dep ensure
 
-      - store_cache:
+      - save_cache:
           key: dep-cache-{{.Branch}}-{{checksum "Gopkg.lock"}}
           paths: /go/src/github.com/hikaru7719/receipt-rest-api/vendor
 
