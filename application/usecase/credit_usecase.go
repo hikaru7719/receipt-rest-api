@@ -5,6 +5,7 @@ import (
 	"github.com/hikaru7719/receipt-rest-api/domain/repository"
 )
 
+// CreditUsecase - クレジットに関するユースケース
 type CreditUsecase interface {
 	PostCredit(userID int, cardName string, finishDate, withdrawalDate, laterPaymentMonth int) (*model.Credit, error)
 }
@@ -14,8 +15,8 @@ type creditUsecase struct {
 }
 
 // NewCreditUsecase - creditUsecaseの生成
-func NewCreditUsecase() CreditUsecase {
-	return &creditUsecase{}
+func NewCreditUsecase(r repository.CreditRepository) CreditUsecase {
+	return &creditUsecase{r}
 }
 
 // PostCredit - クレジットカードの登録

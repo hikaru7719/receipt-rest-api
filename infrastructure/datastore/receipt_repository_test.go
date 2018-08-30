@@ -8,8 +8,6 @@ import (
 	"testing"
 )
 
-
-
 func TestReceiptRepository_FindOne(t *testing.T) {
 	testData := &model.Receipt{ID: 1, UserID: 1, Name: "test", Price: 1000, Kind: "日用品", Date: "2018-08-09", Memo: "test", CreditID: 1}
 	cols := []string{"id", "user_id", "name", "price", "kind", "date", "memo", "credit_id"}

@@ -6,8 +6,6 @@ import (
 	"testing"
 )
 
-
-
 func TestCreditRepository_Create(t *testing.T) {
 	mock.ExpectExec("INSERT INTO `credits`").WillReturnResult(sqlmock.NewResult(1, 1))
 	expected := &model.Credit{ID: 1, UserID: 1, CardName: "アメリカンエクスプレス", FinishDate: 10, WithdrawalDate: 4, LaterPaymentMonth: 1}
