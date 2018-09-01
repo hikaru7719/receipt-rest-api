@@ -3,9 +3,11 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/hikaru7719/receipt-rest-api/domain/model"
 	"github.com/hikaru7719/receipt-rest-api/infrastructure/datastore"
 	"github.com/hikaru7719/receipt-rest-api/interface/server/form"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -33,6 +35,10 @@ func testGetReceipt(t *testing.T, client *http.Client, testServer *httptest.Serv
 	if res.StatusCode != 200 {
 		t.Error("Get Request /v1/receipt/:id Not Working")
 	}
+
+	body, _ := ioutil.ReadAll(res.Body)
+	actual := string(body)
+	fmt.Println(actual)
 }
 
 func testPostReceipt(t *testing.T, client *http.Client, testServer *httptest.Server) {
@@ -46,6 +52,9 @@ func testPostReceipt(t *testing.T, client *http.Client, testServer *httptest.Ser
 	if res.StatusCode != 201 {
 		t.Error("Post Request /v1/receipt Not Working")
 	}
+	body, _ := ioutil.ReadAll(res.Body)
+	actual := string(body)
+	fmt.Println(actual)
 }
 
 func testDeleteReceipt(t *testing.T, client *http.Client, testServer *httptest.Server) {
@@ -58,6 +67,9 @@ func testDeleteReceipt(t *testing.T, client *http.Client, testServer *httptest.S
 	if res.StatusCode != 202 {
 		t.Error("Delete Request /v1/receipt/:id Not Working")
 	}
+	body, _ := ioutil.ReadAll(res.Body)
+	actual := string(body)
+	fmt.Println(actual)
 
 }
 
@@ -72,4 +84,7 @@ func testPostCredit(t *testing.T, client *http.Client, testServer *httptest.Serv
 	if res.StatusCode != 201 {
 		t.Error("Post Request /v1/credit Not Working")
 	}
+	body, _ := ioutil.ReadAll(res.Body)
+	actual := string(body)
+	fmt.Println(actual)
 }
