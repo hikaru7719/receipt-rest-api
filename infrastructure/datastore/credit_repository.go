@@ -5,6 +5,7 @@ import (
 	"github.com/hikaru7719/receipt-rest-api/domain/repository"
 )
 
+// CreditRepository - クレジットカードに関するリポジトリ
 type CreditRepository struct {
 }
 
