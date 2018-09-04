@@ -8,6 +8,7 @@ import (
 // CreditUsecase - クレジットに関するユースケース
 type CreditUsecase interface {
 	PostCredit(userID int, cardName string, finishDate, withdrawalDate, laterPaymentMonth int) (*model.Credit, error)
+	GetCreditList(userID int) ([]*model.Credit, error)
 }
 
 type creditUsecase struct {
@@ -30,4 +31,13 @@ func (c *creditUsecase) PostCredit(userID int, cardName string, finishDate, with
 		return nil, err
 	}
 	return createdCredit, nil
+}
+
+// GetCreditList - クレジットカードのリストの取得
+func (c *creditUsecase) GetCreditList(userID int) ([]*model.Credit, error) {
+	creditList, err := c.FindAllByUserID(userID)
+	if err != nil {
+		return nil, err
+	}
+	return creditList, nil
 }

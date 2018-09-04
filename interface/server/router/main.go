@@ -28,11 +28,12 @@ func router() *gin.Engine {
 
 	v1 := r.Group("/v1")
 	{
-		v1.GET("/receipt/:id", receiptHandler.GetReceipt)
-		v1.POST("/receipt", receiptHandler.PostReceipt)
-		v1.DELETE("/receipt/:id", receiptHandler.DeleteReceipt)
+		v1.GET("/receipts/:id", receiptHandler.GetReceipt)
+		v1.POST("/receipts", receiptHandler.PostReceipt)
+		v1.DELETE("/receipts/:id", receiptHandler.DeleteReceipt)
 
-		v1.POST("/credit", creditHandler.PostCredit)
+		v1.POST("/credits", creditHandler.PostCredit)
+		v1.GET("/credits", creditHandler.GetCreditList)
 	}
 
 	return r

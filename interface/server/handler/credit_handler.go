@@ -4,11 +4,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hikaru7719/receipt-rest-api/application/usecase"
 	"github.com/hikaru7719/receipt-rest-api/interface/server/form"
+	"strconv"
 )
 
 // CreditHandler - クレジットに関するハンドラ
 type CreditHandler interface {
 	PostCredit(ctx *gin.Context)
+	GetCreditList(ctx *gin.Context)
 }
 
 type creditHandler struct {
@@ -29,5 +31,15 @@ func (h *creditHandler) PostCredit(c *gin.Context) {
 		c.JSON(500, err)
 	} else {
 		c.JSON(201, credit)
+	}
+}
+
+func (h *creditHandler) GetCreditList(c *gin.Context) {
+	userID, _ := strconv.Atoi(c.Query("userID"))
+	creditList, err := h.u.GetCreditList(userID)
+	if err != nil {
+		c.JSON(500, err)
+	} else {
+		c.JSON(200, creditList)
 	}
 }
