@@ -29,11 +29,11 @@ func testGetReceipt(t *testing.T, client *http.Client, testServer *httptest.Serv
 	testData, _ := model.NewReceipt(1, "test", 1000, "日用品", "2018-08-08", "memo", 1)
 	datastore.DB.Create(testData)
 	id := strconv.Itoa(testData.ID)
-	req, _ := http.NewRequest("GET", testServer.URL+"/v1/receipt/"+id, nil)
+	req, _ := http.NewRequest("GET", testServer.URL+"/v1/receipts/"+id, nil)
 	res, _ := client.Do(req)
 
 	if res.StatusCode != 200 {
-		t.Error("Get Request /v1/receipt/:id Not Working")
+		t.Error("Get Request /v1/receipts/:id Not Working")
 	}
 
 	body, _ := ioutil.ReadAll(res.Body)
@@ -45,12 +45,12 @@ func testPostReceipt(t *testing.T, client *http.Client, testServer *httptest.Ser
 	testData := &form.ReceiptForm{UserID: 2, Name: "test", Price: 1000, Kind: "日用品", Date: "2018-08-08", Memo: "test", CreditID: 2}
 	buf := new(bytes.Buffer)
 	json.NewEncoder(buf).Encode(testData)
-	req, _ := http.NewRequest("POST", testServer.URL+"/v1/receipt", buf)
+	req, _ := http.NewRequest("POST", testServer.URL+"/v1/receipts", buf)
 	req.Header.Set("Content-Type", "application/json")
 	res, _ := client.Do(req)
 
 	if res.StatusCode != 201 {
-		t.Error("Post Request /v1/receipt Not Working")
+		t.Error("Post Request /v1/receipts Not Working")
 	}
 	body, _ := ioutil.ReadAll(res.Body)
 	actual := string(body)
@@ -61,11 +61,11 @@ func testDeleteReceipt(t *testing.T, client *http.Client, testServer *httptest.S
 	testData, _ := model.NewReceipt(3, "test", 1000, "日用品", "2018-08-08", "memo", 1)
 	datastore.DB.Create(testData)
 	id := strconv.Itoa(testData.ID)
-	req, _ := http.NewRequest("DELETE", testServer.URL+"/v1/receipt/"+id, nil)
+	req, _ := http.NewRequest("DELETE", testServer.URL+"/v1/receipts/"+id, nil)
 	res, _ := client.Do(req)
 
 	if res.StatusCode != 202 {
-		t.Error("Delete Request /v1/receipt/:id Not Working")
+		t.Error("Delete Request /v1/receipts/:id Not Working")
 	}
 	body, _ := ioutil.ReadAll(res.Body)
 	actual := string(body)
@@ -77,12 +77,12 @@ func testPostCredit(t *testing.T, client *http.Client, testServer *httptest.Serv
 	testData := &form.CreditForm{UserID: 1, CardName: "アメリカンエクスプレス", FinishDate: 10, WithdrawalDate: 4, LaterPaymentMonth: 1}
 	buf := new(bytes.Buffer)
 	json.NewEncoder(buf).Encode(testData)
-	req, _ := http.NewRequest("POST", testServer.URL+"/v1/credit", buf)
+	req, _ := http.NewRequest("POST", testServer.URL+"/v1/credits", buf)
 	req.Header.Set("Content-Type", "application/json")
 	res, _ := client.Do(req)
 
 	if res.StatusCode != 201 {
-		t.Error("Post Request /v1/credit Not Working")
+		t.Error("Post Request /v1/credits Not Working")
 	}
 	body, _ := ioutil.ReadAll(res.Body)
 	actual := string(body)
