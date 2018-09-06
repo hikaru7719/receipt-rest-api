@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hikaru7719/receipt-rest-api/infrastructure/datastore"
-	"github.com/hikaru7719/receipt-rest-api/interface/server/router"
+	"github.com/hikaru7719/receipt-rest-api/interface/slack/router"
 )
 
 func main() {
