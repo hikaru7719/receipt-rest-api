@@ -1,4 +1,4 @@
-package main
+package router
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ import (
 
 func TestAPI(t *testing.T) {
 	datastore.CreateConnection(datastore.GetDBEnv())
-	r := router()
+	r := Router()
 	testServer := httptest.NewServer(r)
 	client := new(http.Client)
 	testGetReceipt(t, client, testServer)

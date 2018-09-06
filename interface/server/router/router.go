@@ -1,21 +1,16 @@
-package main
+package router
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/hikaru7719/receipt-rest-api/application/usecase"
 	"github.com/hikaru7719/receipt-rest-api/infrastructure/datastore"
+	"github.com/hikaru7719/receipt-rest-api/interface/server/form"
 	"github.com/hikaru7719/receipt-rest-api/interface/server/handler"
+	"os"
 )
 
-func main() {
-
-	r := router()
-	datastore.CreateConnection(datastore.GetDBEnv())
-	r.Run(":8080")
-
-}
-
-func router() *gin.Engine {
+func Router() *gin.Engine {
 
 	receiptRepository := datastore.NewReceiptRepository()
 	receiptUseCase := usecase.NewReceiptUsecase(receiptRepository)
@@ -37,4 +32,20 @@ func router() *gin.Engine {
 	}
 
 	return r
+}
+
+func SlackRouter() *gin.Engine {
+	router := gin.Default()
+	router.POST("/", func(context *gin.Context) {
+		challenge := form.HttpChallenge{}
+		context.BindJSON(&challenge)
+		fmt.Println(challenge)
+		if challenge.Token == os.Getenv("Slack_Token") {
+			context.JSON(200, challenge.Challenge)
+		} else {
+			context.JSON(500, "error")
+		}
+
+	})
+	return router
 }
