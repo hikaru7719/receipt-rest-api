@@ -1,23 +1,13 @@
 package router
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"os"
+	"github.com/hikaru7719/receipt-rest-api/interface/slack/handler"
 )
 
 func SlackRouter() *gin.Engine {
+	slackHandler := handler.NewSlackHandler()
 	router := gin.Default()
-	router.POST("/", func(context *gin.Context) {
-		challenge := make(map[string]interface{})
-		context.BindJSON(&challenge)
-		fmt.Println(challenge)
-		if challenge["token"] == os.Getenv("Slack_Token") {
-			context.JSON(200, challenge["challenge"])
-		} else {
-			context.JSON(500, "error")
-		}
-
-	})
+	router.POST("/", slackHandler.Adapter)
 	return router
 }
