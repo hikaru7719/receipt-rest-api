@@ -9,7 +9,7 @@ import (
 )
 
 // DB - コネクション
-var DB *gorm.DB
+var DB = CreateConnection(GetDBEnv())
 
 // GetDBEnv - DBの接続先を環境変数から取得
 func GetDBEnv() interface{} {
@@ -22,14 +22,14 @@ func GetDBEnv() interface{} {
 }
 
 // CreateConnection - コネクションの確立
-func CreateConnection(connect interface{}) {
+func CreateConnection(connect interface{}) *gorm.DB {
 	db, err := gorm.Open("mysql", connect)
 
 	if err != nil {
 		fmt.Println(connect)
 		panic(err.Error())
 	}
-	DB.AutoMigrate(&model.Credit{})
-	DB.AutoMigrate(&model.Receipt{})
-	DB = db
+	db.AutoMigrate(&model.Credit{})
+	db.AutoMigrate(&model.Receipt{})
+	return db
 }

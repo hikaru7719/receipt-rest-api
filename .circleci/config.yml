@@ -43,9 +43,5 @@ jobs:
           paths: /go/src/github.com/hikaru7719/receipt-rest-api/vendor
 
       - run:
-          name: Define schema
-          command: go run /go/src/github.com/hikaru7719/receipt-rest-api/cmd/db_migration.go
-
-      - run:
           name: test
           command: go test -v -cover ./...
