@@ -2,6 +2,7 @@ package datastore
 
 import (
 	"fmt"
+	"github.com/hikaru7719/receipt-rest-api/domain/model"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql" //mysqlのドライバー
 	"os"
@@ -16,9 +17,7 @@ func GetDBEnv() interface{} {
 	pass := os.Getenv("MYSQL_PASS")
 	dbName := os.Getenv("MYSQL_DBNAME")
 	dbIp := os.Getenv("MYSQL_IP")
-	connect := user + ":" + pass + "@" + "tcp(dbserver:3306)" + "/" + dbName
-	fmt.Println(dbIp)
-	fmt.Println(connect)
+	connect := user + ":" + pass + "@" + "tcp(" + dbIp + ")" + "/" + dbName
 	return connect
 }
 
@@ -30,5 +29,7 @@ func CreateConnection(connect interface{}) {
 		fmt.Println(connect)
 		panic(err.Error())
 	}
+	DB.AutoMigrate(&model.Credit{})
+	DB.AutoMigrate(&model.Receipt{})
 	DB = db
 }

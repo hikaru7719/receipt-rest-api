@@ -6,9 +6,11 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABSE: receipt
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: receipt
     hostname: dbserver
+    volumes:
+      - ./db/mysql_data:/var/lib/mysql
 
   app:
     build: .
@@ -20,5 +22,11 @@ services:
       MYSQL_USER: root
       MYSQL_PASS: password
       MYSQL_DBNAME: receipt
-      MYSQL_IP: abc
+      MYSQL_IP: dbserver:3306
+    entrypoint:
+      - dockerize
+      - -timeout
+      - 60s
+      - -wait
+      - tcp://dbserver:3306
     command: go run /go/src/app/interface/slack/main/main_slack.go

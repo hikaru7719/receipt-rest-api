@@ -8,6 +8,7 @@ jobs:
         - MYSQL_USER=root
         - MYSQL_PASS=test
         - MYSQL_DBNAME=test
+        - MYSQL_IP=127.0.0.1:3306
         - DB_HOST=127.0.0.1
         - DB_PORT=3306
       - image: circleci/mysql:5.7
