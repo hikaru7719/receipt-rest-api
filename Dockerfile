@@ -10,3 +10,4 @@ RUN apt-get update && apt-get install -y wget \
  && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 RUN go get -u github.com/golang/dep/cmd/dep
 RUN dep ensure
+RUN go build /go/src/app/interface/slack/main/main_slack.go

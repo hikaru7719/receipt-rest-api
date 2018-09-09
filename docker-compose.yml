@@ -23,10 +23,11 @@ services:
       MYSQL_PASS: password
       MYSQL_DBNAME: receipt
       MYSQL_IP: dbserver:3306
+      Slack_Token: ${Slack_Token}
     entrypoint:
       - dockerize
       - -timeout
       - 60s
       - -wait
       - tcp://dbserver:3306
-    command: go run /go/src/app/interface/slack/main/main_slack.go
+    command: ./main_slack
