@@ -1,8 +1,10 @@
-version: '3'
+version: '2'
 
 services:
   dbserver:
     image: mysql:5.7
+    cpu_shares: 200
+    mem_limit: 134217728
     ports:
       - "3306:3306"
     environment:
@@ -10,10 +12,12 @@ services:
       MYSQL_DATABASE: receipt
     hostname: dbserver
     volumes:
-      - ./db/mysql_data:/var/lib/mysql
+      - :/var/lib/mysql
 
   app:
-    build: .
+    image:
+    cpu_shares: 200
+    mem_limit: 134217728
     ports:
       - "8080:8080"
     links:
@@ -23,7 +27,7 @@ services:
       MYSQL_PASS: password
       MYSQL_DBNAME: receipt
       MYSQL_IP: dbserver:3306
-      Slack_Token: ${Slack_Token}
+      Slack_Token: abc
     entrypoint:
       - dockerize
       - -timeout
