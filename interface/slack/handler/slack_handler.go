@@ -21,23 +21,19 @@ func NewSlackHandler() SlackHandler {
 
 // Adapter - イベントに応じて振る舞いを決定
 func (h *slackHandler) Adapter(context *gin.Context) {
-	request := make(map[string]interface{})
-	context.BindJSON(&request)
-	fmt.Println(request)
-	fmt.Println()
-	fmt.Println()
-	switch request["type"] {
+	request, _ := context.Get("request")
+	requestJson, _ := request.(map[string]interface{})
+	switch requestJson["type"] {
 	case "url_verification":
-		if request["token"] == os.Getenv("Slack_Token") {
-			context.JSON(200, request["challenge"])
+		if requestJson["token"] == os.Getenv("Slack_Token") {
+			context.JSON(200, requestJson["challenge"])
 		} else {
 			context.JSON(500, "error")
 		}
 	case "event_callback":
-		event, _ := request["event"].(map[string]interface{})
+		event, _ := requestJson["event"].(map[string]interface{})
 		if event["type"] == "app_mention" {
 			fmt.Println(event["text"])
 		}
 	}
-
 }

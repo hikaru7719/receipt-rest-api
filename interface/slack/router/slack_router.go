@@ -8,6 +8,7 @@ import (
 func SlackRouter() *gin.Engine {
 	slackHandler := handler.NewSlackHandler()
 	router := gin.Default()
+	router.Use()
 	router.POST("/", slackHandler.Adapter)
 	return router
 }
