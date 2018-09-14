@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"os"
+	"strings"
 )
 
 // SlackHandler - Slack Botのハンドラ
@@ -23,7 +25,8 @@ func NewSlackHandler() SlackHandler {
 func (h *slackHandler) Adapter(context *gin.Context) {
 	request, _ := context.Get("request")
 	requestJson, _ := request.(map[string]interface{})
-	switch requestJson["type"] {
+	requestJsonString, _ := requestJson["type"].(string)
+	switch requestJsonString {
 	case "url_verification":
 		if requestJson["token"] == os.Getenv("Slack_Token") {
 			context.JSON(200, requestJson["challenge"])
@@ -32,8 +35,17 @@ func (h *slackHandler) Adapter(context *gin.Context) {
 		}
 	case "event_callback":
 		event, _ := requestJson["event"].(map[string]interface{})
-		if event["type"] == "app_mention" {
-			fmt.Println(event["text"])
+		eventString, _ := event["type"].(string)
+		if eventString == "app_mention" {
+			text, _ := event["text"].(string)
+			stringReader := strings.NewReader(text)
+			scanner := bufio.NewScanner(stringReader)
+			scanner.Scan()
+			scanner.Scan()
+			switch text := scanner.Text(); text {
+			case "クレジット登録":
+				fmt.Println(text)
+			}
 		}
 	}
 }
