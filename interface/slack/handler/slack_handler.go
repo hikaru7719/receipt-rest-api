@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"os"
 	"strings"
+	"github.com/hikaru7719/receipt-rest-api/interface/slack/parser"
 )
 
 // SlackHandler - Slack Botのハンドラ
@@ -14,6 +15,7 @@ type SlackHandler interface {
 }
 
 type slackHandler struct {
+	parser.Parser parser
 }
 
 // NewSlackHandler - SlackHandlerの生成
