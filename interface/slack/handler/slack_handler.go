@@ -4,9 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/hikaru7719/receipt-rest-api/interface/slack/parser"
 	"os"
 	"strings"
-	"github.com/hikaru7719/receipt-rest-api/interface/slack/parser"
 )
 
 // SlackHandler - Slack Botのハンドラ
@@ -15,12 +15,12 @@ type SlackHandler interface {
 }
 
 type slackHandler struct {
-	parser.Parser parser
+	parser parser.Parser
 }
 
 // NewSlackHandler - SlackHandlerの生成
-func NewSlackHandler() SlackHandler {
-	return &slackHandler{}
+func NewSlackHandler(parser parser.Parser) SlackHandler {
+	return &slackHandler{parser: parser}
 }
 
 // Adapter - イベントに応じて振る舞いを決定
