@@ -8,6 +8,7 @@ you can store receipt data.
 - Gin
 - Gorm
 
-## SlakcAPI and RESTAPI 
-you can use this API as SlackAPI or REST API.
+## SlackBot and RESTAPI 
+you can use this API as SlackBot or REST API.
+
 
